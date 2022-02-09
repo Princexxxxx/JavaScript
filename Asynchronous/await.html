@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            function fibonacci(num) {
+                if (num === 0) return 0;
+                if (num === 1) return 1;
+
+                return fibonacci(num - 2) + fibonacci(num - 1);
+            }
+
+            async function asyncTask() {
+                const res = await 1;
+
+                console.log('res: ', res);
+            }
+        </script>
+
+        <script>
+            // 异步任务
+            asyncTask();
+
+            // 耗时计算，占用CPU时间片
+            console.time(`calc fibonacci`);
+            console.log(`fibonacci-42 result: `, fibonacci(42));
+            console.timeEnd(`calc fibonacci`);
+
+            console.log('---');
+        </script>
+    </body>
+</html>

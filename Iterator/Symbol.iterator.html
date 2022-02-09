@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            [][Symbol.iterator]();
+            new Set()[Symbol.iterator]();
+
+
+            // ------------- 使用[@@iterator]() -------------
+            const string = 'A\uD835\uDC68';
+            const strIter = string[Symbol.iterator]();
+
+            console.log(strIter.next().value); // "A"
+            console.log(strIter.next().value); // "\uD835\uDC68"
+
+
+            // ------------- 自定义迭代器 -------------
+            const myIterable = {};
+
+            myIterable[Symbol.iterator] = function* () {
+                yield 1;
+                yield 2;
+                yield 3;
+            };
+
+            [...myIterable]; // [1, 2, 3]
+
+
+            // ------------- 实现可迭代协议，使迭代器可迭代：Symbol.iterator -------------
+            function createIterator(items) {
+                let i = 0;
+
+                return {
+                    next: function () {
+                        let done = i >= items.length;
+                        let value = !done ? items[i++] : undefined;
+                        return {
+                            done: done,
+                            value: value,
+                        };
+                    },
+                    [Symbol.iterator]: function () {
+                        return this;
+                    },
+                };
+            }
+
+            const iterator = createIterator([1, 2, 3]);
+
+            [...iterator]; // [1, 2, 3]
+        </script>
+    </body>
+</html>
