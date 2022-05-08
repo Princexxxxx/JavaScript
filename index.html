@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            const { search } = window.location;
+
+            if (search) {
+                const params = new URLSearchParams(search);
+
+                const scriptPath = params.get('question');
+                const dir = params.get('dir');
+
+                const script = document.createElement('script');
+
+                script.src = dir
+                    ? `/${dir}/${scriptPath}.js`
+                    : `/${scriptPath}.js`;
+
+                script.type = 'module';
+
+                document.querySelector('body').appendChild(script);
+            }
+        </script>
+    </body>
+</html>
