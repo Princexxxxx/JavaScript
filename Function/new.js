@@ -19,14 +19,7 @@ function Person(name, age) {
  */
 function objectFactory(constructor, ...args) {
     const context = Object.create(constructor.prototype); // 基于构造函数原型创建新对象。Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__
-
-    console.log('[ context ]', context);
-    console.log('[ args ]', args);
-
     const result = constructor.apply(context, args); // 添加属性到新创建的实例，并获取构造函数执行结果
-
-    console.log('[ result ]', result);
-    console.log('[ context ]', context);
 
     return typeof result === 'object' ? result : context;
 }
@@ -63,6 +56,3 @@ function _new(/* 构造函数 */ constructor, /* 构造函数参数 */ params) {
     // 如果返回结果是对象，就直接返回，否则返回 context 对象
     return typeof result === 'object' && result != null ? result : context;
 }
-
-// 实例
-// var actor = _new(Person, '张三', 28);
