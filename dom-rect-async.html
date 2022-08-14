@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            console.time('calc');
+
+            const rects = [];
+
+            for (let i = 0; i < 1000; i++) {
+                const child = document.createElement('div');
+                child.innerText = Math.random();
+                document.body.append(child);
+
+                // 浏览器做了优化，合并多次append操作，拿到CPU时间片后做插入
+                // 插入每个元素，查询几何属性，触发浏览器强制重排，失去优化
+                // 使用异步线程，避免阻塞渲染线程
+                setTimeout(() => {
+                    const rect = child.getBoundingClientRect();
+                    rects.push(rect);
+                }, 0);
+            }
+
+            console.timeEnd('calc');
+        </script>
+    </body>
+</html>

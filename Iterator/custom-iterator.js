@@ -38,16 +38,12 @@ const obj = new MyObject({
     c: 3,
 });
 
-// for (let item of obj) {
-//     console.log('item -> ', item);
-// }
-
 //
 // --------------------------------------------
 //
 
 /**
- * 基于生成器函数的迭代器实现
+ * [Best] 基于生成器函数的迭代器实现
  * 使用生成器函数（Generator）实现是最简单的，只要使用 yield 语句返回每一次的值即可。
  */
 const myIterable = {

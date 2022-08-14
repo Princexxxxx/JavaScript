@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            const calc = (count) => {
+                const fragment = document.createDocumentFragment('div');
+                const children = [];
+
+                for (let i = 0; i < count; i++) {
+                    const child = document.createElement('div');
+                    child.innerText = Math.random();
+                    fragment.appendChild(child);
+                    children.push(child);
+                }
+
+                // 一次性插入Fragment片段
+                document.body.appendChild(fragment);
+
+                return children.map((node) => node.getBoundingClientRect());
+            };
+
+            console.time('calc');
+
+            const rects = calc(1000);
+            console.log('[ rects ]', rects);
+
+            console.timeEnd('calc');
+        </script>
+    </body>
+</html>

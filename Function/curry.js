@@ -8,29 +8,41 @@
  *
  * @param {*} fn
  */
-const curry = (fn, ...args) =>
+const _curry = (fn, ...args) =>
     args.length >= fn.length
         ? fn(...args) // 传入的参数大于等于原始函数fn的参数个数，则直接执行该函数
         : (...rest) => {
-              console.log('[ args ]', args);
-
-              return curry(fn, ...args, ...rest); // 传入的参数小于原始函数fn的参数个数时，继续对当前函数进行柯里化，返回一个接受所有参数（当前参数和剩余参数）的函数
+              return _curry(fn, ...args, ...rest); // 传入的参数小于原始函数fn的参数个数时，继续对当前函数进行柯里化，返回一个接受所有参数（当前参数和剩余参数）的函数
           };
 
-function add(a, b, c) {
-    return a + b + c;
-}
-
-const _curry = (fn, ...args) => {
-    return args.length >= fn.length
-        ? fn(...args)
-        : (...rest) => _curry(fn, ...args, ...rest);
+/**
+ * 简写
+ *
+ * @param {*} fn
+ * @param  {...any} args
+ */
+const curry = (fn, ...args) => {
+    return args.length >= fn.length ? fn(...args) : (...rest) => curry(fn, ...args, ...rest);
 };
 
+const add = (a, b, c) => a + b + c;
+
+// 柯里化函数
 const addCurry = curry(add);
 
-console.log('[ ans ]', [
-    addCurry(1)(2)(3),
-    addCurry(1, 2)(4),
-    addCurry(1, 3, 5),
-]);
+console.log('[ ans ]', [addCurry(1)(2)(3)]);
+console.log('[ ans ]', [addCurry(1)(2)(3), addCurry(1, 2)(4), addCurry(1, 3, 5)]);
+
+const validateStr = (regex, str) => regex.test(str);
+
+// 柯里化函数
+const validate = curry(validateStr);
+
+// 手机号校验
+const validateMobile = validate(/^\d{11}$/);
+
+// 身份证校验
+const validateIdNo = validate(/^120/);
+
+console.log('[ validateMobile ]', validateMobile(133233));
+console.log('[ validateIdNo ]', validateIdNo(120100199100001111));

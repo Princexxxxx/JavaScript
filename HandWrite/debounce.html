@@ -6,7 +6,6 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Debounce</title>
-        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     </head>
     <body>
         <button id="btn">防抖</button>
@@ -24,9 +23,11 @@
              * func 调用时会传入最后一次提供给 debounced（防抖动）函数 的参数。 后续调用的 debounced（防抖动）函数返回是最后一次 func 调用的结果。
              */
             const debounce = (fn, delay = 0) => {
-                let timer = null;
+                let timer = null; // ⚠️⚠️ 闭包
 
-                return (...args) => {
+                return function (...args) {
+                    console.log('[ this, args ]', this, args);
+
                     clearTimeout(timer);
 
                     timer = setTimeout(() => {
@@ -41,22 +42,7 @@
 
             // 全局事件处理器（GlobalEventHandlers）之一的 onclick 属性，是处理当前元素的 click 事件的事件处理器（event handler）。
             // functionRef 是一个函数名称，或一个函数表达式。该函数接收 MouseEvent 对象作为其唯一参数。在函数内，this 是触发当前事件的元素。
-            // 同一时刻，每个 onclick 接收器只能指向唯一一个对象。所以，你可能更倾向于使用EventTarget.addEventListener() 的方法，这种方法更加灵活，同时也是 DOM 事件规范格式。
             document.getElementById('btn').onclick = debounce(func, 1000);
-
-            // 预期：轮询间隔 < debounce时失效，最小间隔为delay值
-            // ⚠️⚠️ 问题来了：为什么delay > interval不生效
-            let fnInterval = setInterval(
-                debounce(() => {
-                    console.log(Date.now());
-                }, 500),
-                1000
-            );
-
-            // 定时器清除
-            document.addEventListener('click', () => {
-                clearInterval(fnInterval);
-            });
         </script>
     </body>
 </html>

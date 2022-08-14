@@ -31,7 +31,7 @@ class Person {
     }
 }
 
-var personA = new Person('lqx', 30);
+var personA = new Person('Peter', 30);
 console.log('[ personA ]', personA);
 
 Person.say();
